@@ -21,7 +21,8 @@
         "pxlrbt/filament-excel": "^2.1",
         "saade/filament-adjacency-list": "^3.1",
         "saade/filament-fullcalendar": "^3.0",
-        "stancl/tenancy": "^3.7"
+        "stancl/tenancy": "^3.7",
+        "stancl/virtualcolumn": "^1.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",
