@@ -12,8 +12,12 @@ return new class() extends Migration {
     {
         Schema::create('public.pages', function (Blueprint $table) {
             $table->string('id')->primary()->index();
+            $table->string('title')->nullable()->index();
             $table->string('slug')->nullable()->index();
             $table->string('tenant_id')->nullable()->index();
+            $table->string('view')->nullable();
+            $table->boolean('only_auth')->nullable()->index()->default(false);
+            $table->boolean('published')->nullable()->index()->default(true);
             $table->json('data')->nullable();
 
             $table->timestamps();

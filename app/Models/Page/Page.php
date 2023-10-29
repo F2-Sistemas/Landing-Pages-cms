@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\GeneratesIds;
 use App\Models\Traits\HasDataColumn;
 use App\Models\Traits\BelongsToTenant;
+use Illuminate\Support\Facades\View;
 
 class Page extends Model
 {
@@ -18,19 +19,6 @@ class Page extends Model
     use BelongsToTenant;
 
     protected $table = 'public.pages';
-    protected $primaryKey = 'id';
-    protected $guarded = []; // Because has 'data' column, any key can be stored
-
-    public static function getCustomColumns(): array
-    {
-        return [
-            'id',
-            'slug',
-            'tenant_id',
-        ];
-    }
-
-    protected static $modelsShouldPreventAccessingMissingAttributes = false;
 
     protected $dispatchesEvents = [
         'saving' => Events\SavingPage::class,
@@ -42,4 +30,43 @@ class Page extends Model
         'deleting' => Events\DeletingPage::class,
         'deleted' => Events\PageDeleted::class,
     ];
+
+    protected $casts = [
+        'only_auth' => 'boolean',
+        'published' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
+
+    public static function getCustomColumns(): array
+    {
+        return [
+            'id',
+            'title',
+            'slug',
+            'view',
+            'tenant_id',
+            'only_auth',
+            'published',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ];
+    }
+
+    public function getView(bool $checkIfExists = true): ?string
+    {
+        $view = $this->view;
+
+        if (!$view) {
+            return null;
+        }
+
+        if ($checkIfExists) {
+            return View::exists($view) ? $view : null;
+        }
+
+        return $view;
+    }
 }

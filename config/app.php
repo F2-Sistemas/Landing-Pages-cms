@@ -56,7 +56,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://vamosfiscalizar.test'),
+    'url' => env('APP_URL', 'http://localhost.test'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'timezone' => 'America/Sao_Paulo',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'locale' => 'pt_BR',
+    'locale' => env('APP_LOCALE', 'pt_BR'),
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +97,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'pt_BR',
+    'fallback_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -110,7 +110,7 @@ return [
     |
     */
 
-    'faker_locale' => 'pt_BR',
+    'faker_locale' => env('APP_FAKER_LOCALE', 'pt_BR'),
 
     /*
     |--------------------------------------------------------------------------

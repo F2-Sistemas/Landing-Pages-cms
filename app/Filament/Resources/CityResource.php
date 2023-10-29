@@ -44,8 +44,7 @@ class CityResource extends Resource
 
                         TextInput::make('nome')
                             ->label('Nome do município')
-                            ->required()
-                            ->unique(ignoreRecord: true),
+                            ->required(),
 
                         TextInput::make('uf')
                             ->required()

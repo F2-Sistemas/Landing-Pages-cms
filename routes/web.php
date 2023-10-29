@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\IndexController;
+use App\Http\Controllers\Web\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,13 @@ Route::get(
     '/login',
     fn () => redirect()->route('filament.admin.auth.login')
 )->name('login');
+
+Route::view('try-view', 'tail-single::pages.landing_01')->name('try-view');
+
+Route::prefix('p')
+    ->name('pages.')
+    ->group(function () {
+        Route::get('{page}', [PageController::class, 'show'])
+            ->whereAlphaNumeric('page')
+            ->name('show');
+    });

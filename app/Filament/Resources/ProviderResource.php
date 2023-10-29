@@ -33,51 +33,52 @@ class ProviderResource extends Resource
         return $form
             ->schema([
                 Section::make()
-                ->schema([
-                    TextInput::make('codigo')
-                        ->label('Código')
-                        ->required()
-                        ->integer()
-                        ->unique(ignoreRecord:true),
-                    TextInput::make('nome')
-                        ->label('Nome do prestador')
-                        ->required()
-                        ->unique(ignoreRecord:true)
-                    ,
-                    Select::make('city_codigo')
-                        ->label('Município sede')
-                        ->searchable()
-                        ->required()
-                        ->getSearchResultsUsing(
-                            fn (string $search): array => City::whereRaw(
-                                "LOWER(nome) like ?",
-                                [
-                                    strtolower("%{$search}%")
-                                ]
+                    ->schema([
+                        TextInput::make('codigo')
+                            ->label('Código')
+                            ->required()
+                            ->integer()
+                            ->unique(ignoreRecord: true),
+                        TextInput::make('nome')
+                            ->label('Nome do prestador')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                        ,
+                        Select::make('city_codigo')
+                            ->label('Município sede')
+                            ->searchable()
+                            ->required()
+                            ->getSearchResultsUsing(
+                                fn (string $search): array => City::whereRaw(
+                                    "LOWER(nome) like ?",
+                                    [
+                                        strtolower("%{$search}%")
+                                    ]
+                                )
+                                    ->limit(50)
+                                    ->get()
+                                        ?->map(function (?Model $record) {
+                                            return [
+                                                'label' => "{$record->nome} - {$record?->uf}",
+                                                'codigo' => $record?->codigo,
+                                            ];
+                                        })
+                                        ?->pluck('label', 'codigo')
+                                        ?->toArray()
                             )
-                                ->limit(50)
-                                ->get()
-                                ?->map(function (?Model $record) {
-                                    return [
-                                        'label' =>  "{$record->nome} - {$record?->uf}",
-                                        'codigo' => $record?->codigo,
-                                    ];
-                                })
-                                ?->pluck('label', 'codigo')
-                                ?->toArray()
-                        )
-                        ->getOptionLabelUsing( // alternativa ao titleAttribute
-                            function ($value): ?string {
-                                $city = City::whereCodigo($value)->first();
+                            ->getOptionLabelUsing(
+                                // alternativa ao titleAttribute
+                                function ($value): ?string {
+                                    $city = City::whereCodigo($value)->first();
 
-                                if (!$city) {
-                                    return null;
+                                    if (!$city) {
+                                        return null;
+                                    }
+
+                                    return "{$city->nome} - {$city?->uf}";
                                 }
-
-                                return "{$city->nome} - {$city?->uf}";
-                            }
-                        )
-                ])
+                            ),
+                    ])
             ]);
     }
 
@@ -124,9 +125,9 @@ class ProviderResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-        ->withoutGlobalScopes([
-            SoftDeletingScope::class,
-        ]);
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 
     public static function getPages(): array

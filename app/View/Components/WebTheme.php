@@ -27,7 +27,7 @@ class WebTheme extends Component
     public static function getThemes(): array
     {
         return [
-            'tail-single' => 'themes.tail-single.app',
+            'tail-single' => 'themes.tail-single.pages.landing_01',
         ];
     }
 

@@ -38,6 +38,7 @@ class AgencyProviderResource extends Resource
                 Select::make('provider_codigo')
                     ->label('Prestador')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->searchable()
                     ->columnSpanFull()
                     ->getSearchResultsUsing(
@@ -49,21 +50,22 @@ class AgencyProviderResource extends Resource
                         )
                             ->limit(50)
                             ->get()
-                            ?->map(function (?Model $record) {
-                                return [
-                                    'label' => "{$record->nome} | {$record->city?->nome} - {$record->city?->uf}",
-                                    'codigo' => $record?->codigo,
-                                ];
-                            })
-                            ?->pluck('label', 'codigo')
-                            ?->toArray()
+                                ?->map(function (?Model $record) {
+                                    return [
+                                        'label' => "{$record->nome} | {$record->city?->nome} - {$record->city?->uf}",
+                                        'codigo' => $record?->codigo,
+                                    ];
+                                })
+                                ?->pluck('label', 'codigo')
+                                ?->toArray()
                     )
 
-                    ->getOptionLabelUsing( // alternativa ao titleAttribute
+                    ->getOptionLabelUsing(
+                        // alternativa ao titleAttribute
                         function ($value): ?string {
                             $provider = Provider::with('city')->whereCodigo($value)->first();
 
-                            if (! $provider) {
+                            if (!$provider) {
                                 return null;
                             }
 

@@ -24,6 +24,11 @@ class CalendarWidget extends FullCalendarWidget
 {
     public Model|string|null $model = AuditFormList::class;
 
+    public static function canView(): bool
+    {
+        return tenancy()->initialized;
+    }
+
     protected function headerActions(): array
     {
         return [

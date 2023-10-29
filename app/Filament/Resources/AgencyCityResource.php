@@ -38,6 +38,7 @@ class AgencyCityResource extends Resource
                 Select::make('city_codigo')
                     ->label('Sigla do estado - município')
                     ->searchable()
+                    ->unique(ignoreRecord: true)
                     ->required()
                     ->getSearchResultsUsing(
                         fn (string $search): array => City::whereRaw(

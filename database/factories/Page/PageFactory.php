@@ -17,8 +17,12 @@ class PageFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug' => str(fake()->unique()->words(3, true))->slug(),
+            'title' => fn () => fake()->unique()->words(3, true),
+            'slug' => fn (array $attributes) => str($attributes['title'] ?? fake()->unique()->words(3, true))->slug(),
             'id' => fn (array $attributes) => str($attributes['slug'] ?? fake()->unique()->words(3, true))->slug(),
+            'only_auth' => fake()->boolean(10),
+            'published' => fake()->boolean(80),
+            'view' => 'tail-single::pages.landing_01',
             'fake_column1' => 'Value of fake_column1',
             'fake_column2' => 'Value of fake_column2',
         ];

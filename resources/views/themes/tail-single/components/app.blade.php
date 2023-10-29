@@ -32,7 +32,7 @@
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
-    <title>Lang page e-book</title>
+    <title>Landing page e-book</title>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
@@ -57,7 +57,7 @@
     })">
     <header class="bg-gray-800 text-white py-4">
         <nav class="container mx-auto flex justify-between">
-            <a href="/" class="text-xl font-bold">Lang page e-book</a>
+            <a href="/" class="text-xl font-bold">Landing page e-book</a>
             <div>
                 <a href="#comprar" class="mr-4">Comprar</a>
                 <a href="#saber-mais">Saber mais</a>
@@ -644,13 +644,13 @@
         </div>
     </div>
 
-    <footer class="bg-white dark:bg-gray-900">
+    <footer class="bg-white dark:bg-gray-900 pb-8">
         <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0">
                     <a href="https://flowbite.com/" class="flex items-center">
                         <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="FlowBite Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">F2 Sistemas e Ensino</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -691,8 +691,12 @@
             </div>
             <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
             <div class="sm:flex sm:items-center sm:justify-between">
-                <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/"
-                        class="hover:underline">Flowbite™</a>. All Rights Reserved.
+                <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+                    © {{ date('Y') }} Todos os direitos reservados à
+                    <a href="#!" target="_blank" class="text-blue-600 dark:text-blue-500 hover:underline">Saúde e bem estar LTDA</a>.
+                </span>
+                <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+                    Desenvolvido por <a href="#!" target="_blank" class="text-blue-600 dark:text-blue-500 hover:underline"> Tiago França</a>.
                 </span>
                 <div class="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
                     <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">

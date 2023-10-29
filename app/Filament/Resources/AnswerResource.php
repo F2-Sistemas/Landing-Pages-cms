@@ -61,7 +61,7 @@ class AnswerResource extends Resource
         $answers = null;
         $answers = Answer::query()
             ->where('audit_form_list_id', self::$audit_form_list_id)
-            ->where('user_id', auth()->user()->id)
+            // ->where('user_id', auth()->user()->id)
             ->get();
 
         $questionarios = AuditForm::query()
@@ -167,7 +167,7 @@ class AnswerResource extends Resource
             $justificativa = [];
 
             if ($questao['data']['MErespostaUnica']) {
-                $conforme = $teste->where('conforme', 2)->pluck('conforme')->toArray();
+                $conforme = $teste->where('conforme', 2)->pluck('id')->toArray();
                 static::$naoConforme = $conforme[0] ?? null;
                 $checkList = [Radio::make($questao['data']['uuid'])
                                 ->label('')
