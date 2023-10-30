@@ -109,6 +109,27 @@ return [
             'page_contents' => [
                 'heading' => 'Blocos',
                 'content' => 'Conteúdo',
+                'actions' => [
+                    'addAction_label' => 'Adicionar bloco',
+                    'addBetweenAction_label' => 'Adicionar dentro',
+                    'cloneAction_label' => 'cloneAction_label',
+                    'collapseAction_label' => 'Recolher',
+                    'collapseAllAction_label' => 'Recolher todos',
+                    'deleteAction_label' => 'Excluir',
+                    'expandAction_label' => 'Expandir',
+                    'expandAllAction_label' => 'Expandir todos',
+                    'moveDownAction_label' => 'Mover para baixo',
+                    'moveUpAction_label' => 'Mover para cima',
+                    'reorderAction_label' => 'Reordenar',
+                ],
+                'blocks' => [
+                    'jumbotron_label' => 'Destaque (jumbotron)',
+                    '' => 'URL',
+                    'youtube_url' => 'URL do vídeo do YouTube',
+                    'image_url' => 'URL da imagem',
+                    'media_block_heading' => 'Bloco de mídia',
+                    'cta_heading' => 'Chamadas para ação (botões)',
+                ],
             ],
         ],
         'actions' => [

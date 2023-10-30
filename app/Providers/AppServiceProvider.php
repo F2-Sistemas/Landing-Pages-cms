@@ -5,15 +5,24 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * The application instance.
+     *
+     * @var \Illuminate\Contracts\Foundation\Application
+     */
+    protected $app;
+
     /**
      * Register any application services.
      */
     public function register(): void
     {
         //
+        $this->tenantLocalStorage();
     }
 
     /**
@@ -38,5 +47,20 @@ class AppServiceProvider extends ServiceProvider
         foreach ($themesPaths as $themeNamespace => $themePath) {
             View::addNamespace($themeNamespace, $themePath);
         }
+    }
+
+    public function tenantLocalStorage()
+    {
+        Storage::extend('local_tenant', function ($app, $config) {
+            $localStorage = Storage::disk('local');
+            $localAdapter = $localStorage?->getAdapter();
+            $localDriver = $localStorage?->getDriver();
+
+            return new \App\Adapters\TenantLocalFilesystemAdapter(
+                driver: $localDriver,
+                adapter: $localAdapter,
+                config: $config,
+            );
+        });
     }
 }

@@ -63,4 +63,11 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return parent::getInternal($key);
     }
+
+    public function mainDomain(bool $onlyAddress = false): null|string|\App\Models\Domain
+    {
+        $domain = $this->domains()->orderBy('main', 'desc')->orderBy('id')?->first();
+
+        return $onlyAddress ? $domain?->domain : $domain;
+    }
 }

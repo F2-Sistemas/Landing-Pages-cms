@@ -23,12 +23,20 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use Filament\Navigation\MenuItem;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         $topNavigation = boolval(\Cookie::get('topNavigation', false));
+
+        // vendor/filament/support/docs/02-assets.md
+        FilamentAsset::register([
+            // Js::make('custom-script', __DIR__ . '/../../resources/js/custom.js'),
+            Js::make('cdn-tailwindcss-script', 'https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp'),
+        ]);
 
         return $panel
             ->default()

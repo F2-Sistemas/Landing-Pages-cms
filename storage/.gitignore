@@ -1,0 +1,4 @@
+tenant*
+agencia*
+tenant_*
+!.gitignore

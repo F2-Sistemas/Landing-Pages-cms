@@ -43,7 +43,7 @@ return [
         ],
 
         'tenant_public' => [
-            'driver' => 'local',
+            'driver' => 'local_tenant',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL') . '/tenant_public',
             'visibility' => 'public',
