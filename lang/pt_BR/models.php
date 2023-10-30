@@ -106,6 +106,10 @@ return [
             'meta_config' => [
                 'heading' => 'Informações da página',
             ],
+            'page_contents' => [
+                'heading' => 'Blocos',
+                'content' => 'Conteúdo',
+            ],
         ],
         'actions' => [
             'create' => 'Cadastrar novo item',

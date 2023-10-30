@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Global\TenantStorageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\IndexController;
-use App\Http\Controllers\Web\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +25,9 @@ Route::get(
 
 Route::view('try-view', 'tail-single::pages.landing_01')->name('try-view');
 
-Route::prefix('p')
-    ->name('pages.')
-    ->group(function () {
-        Route::get('{page}', [PageController::class, 'show'])
-            ->whereAlphaNumeric('page')
-            ->name('show');
-    });
+require __DIR__ . '/web/pages.php';
+
+Route::get('tenant/{tenantId}/storage/{path?}', [TenantStorageController::class, 'getFromStorage'])
+    ->where('tenantId', '[a-z0-9]{1,}')
+    ->where('path', '(.*)')
+    ->name('tenant_storage');

@@ -17,6 +17,10 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Forms\Components\Toggle;
 use Closure;
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 
 class PageResource extends Resource
 {
@@ -168,11 +172,49 @@ class PageResource extends Resource
                             ])
                             ->columns(2),
 
-                        Forms\Components\Section::make('meta_config')
-                            ->heading(__('models.Page.form.meta_config.heading'))
+                        Forms\Components\Section::make('page_contents')
+                            ->heading(__('models.Page.form.page_contents.heading'))
                             ->schema([
-                                Forms\Components\TextInput::make('page.title')
-                                    ->label(__('models.Page.form.meta_config.title')),
+                                // begin page contents
+                                Builder::make('content')
+                                    ->blocks([
+                                        Builder\Block::make('heading')
+                                            ->schema([
+                                                TextInput::make('content')
+                                                    ->label('Heading')
+                                                    ->required(),
+                                                Select::make('level')
+                                                    ->options([
+                                                        'h1' => 'Heading 1',
+                                                        'h2' => 'Heading 2',
+                                                        'h3' => 'Heading 3',
+                                                        'h4' => 'Heading 4',
+                                                        'h5' => 'Heading 5',
+                                                        'h6' => 'Heading 6',
+                                                    ])
+                                                    ->required(),
+                                            ])
+                                            ->columns(2),
+                                        Builder\Block::make('paragraph')
+                                            ->schema([
+                                                Textarea::make('content')
+                                                    ->label('Paragraph')
+                                                    ->required(),
+                                            ]),
+                                        Builder\Block::make('image')
+                                            ->schema([
+                                                FileUpload::make('url')
+                                                    ->label('Image')
+                                                    ->visibility('private')
+                                                    ->disk('tenant_public')
+                                                    ->image()
+                                                    ->required(),
+                                                TextInput::make('alt')
+                                                    ->label('Alt text')
+                                                    ->required(),
+                                            ]),
+                                    ])
+                                // end page contents
                             ]),
                     ])
                     ->columnSpan(['lg' => 2]),
@@ -294,11 +336,7 @@ class PageResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('preview')
-                    ->url(function (?Model $record) {
-                        $tenant = tenant();
-
-                        return url('/') . '#' . ($tenant ? "{$tenant?->id}:" : '') . $record?->slug; //WIP
-                    })
+                    ->url(fn (?Model $record) => route('pages.show', $record?->slug))
                     ->hidden(fn (?Model $record) => $record?->deleted_at || !($record?->published))
                     ->icon('heroicon-s-eye')
                     ->openUrlInNewTab(),

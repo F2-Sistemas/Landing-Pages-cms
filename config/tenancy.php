@@ -35,6 +35,7 @@ return [
         Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper::class,
+        \App\Tenancy\Bootstrappers\TenantStorageDirectoryBootstrapper::class,
         // Stancl\Tenancy\Bootstrappers\RedisTenancyBootstrapper::class, // Note: phpredis is needed
     ],
 
@@ -75,7 +76,8 @@ return [
              * Disable the pgsql manager above, and enable the one below if you
              * want to separate tenant DBs by schemas rather than databases.
              */
-            'pgsql' => Stancl\Tenancy\TenantDatabaseManagers\PostgreSQLSchemaManager::class, // Separate by schema instead of database
+            'pgsql' => Stancl\Tenancy\TenantDatabaseManagers\PostgreSQLSchemaManager::class,
+            // Separate by schema instead of database
         ],
     ],
 
@@ -91,7 +93,8 @@ return [
      * You can clear cache selectively by specifying the tag.
      */
     'cache' => [
-        'tag_base' => 'tenant', // This tag_base, followed by the tenant_id, will form a tag that will be applied on each cache call.
+        'tag_base' => 'tenant_',
+        // This tag_base, followed by the tenant_id, will form a tag that will be applied on each cache call.
     ],
 
     /**
@@ -102,10 +105,11 @@ return [
         /**
          * Each disk listed in the 'disks' array will be suffixed by the suffix_base, followed by the tenant_id.
          */
-        'suffix_base' => 'tenant',
+        'suffix_base' => 'tenant_',
         'disks' => [
             'local',
             'public',
+            'tenant_public',
             // 's3',
         ],
 
@@ -118,6 +122,7 @@ return [
             // Disks whose roots should be overridden after storage_path() is suffixed.
             'local' => '%storage_path%/app/',
             'public' => '%storage_path%/app/public/',
+            'tenant_public' => '%storage_path%/app/public/',
         ],
 
         /**
@@ -151,8 +156,10 @@ return [
      * either using the Redis facade or by injecting it as a dependency.
      */
     'redis' => [
-        'prefix_base' => 'tenant', // Each key in Redis will be prepended by this prefix_base, followed by the tenant id.
-        'prefixed_connections' => [ // Redis connections whose keys are prefixed, to separate one tenant's keys from another.
+        'prefix_base' => 'tenant_',
+        // Each key in Redis will be prepended by this prefix_base, followed by the tenant id.
+        'prefixed_connections' => [
+            // Redis connections whose keys are prefixed, to separate one tenant's keys from another.
             // 'default',
         ],
     ],
@@ -187,7 +194,8 @@ return [
      * Parameters used by the tenants:migrate command.
      */
     'migration_parameters' => [
-        '--force' => true, // This needs to be true to run migrations in production.
+        '--force' => true,
+        // This needs to be true to run migrations in production.
         '--step' => true,
         '--path' => [database_path('migrations/tenant')],
         '--realpath' => true,
@@ -197,7 +205,8 @@ return [
      * Parameters used by the tenants:seed command.
      */
     'seeder_parameters' => [
-        '--class' => 'Database\Seeders\TenantSeeders\TenantDatabaseSeeder', // root seeder class
+        '--class' => 'Database\Seeders\TenantSeeders\TenantDatabaseSeeder',
+        // root seeder class
         // '--force' => true,
     ],
 ];
